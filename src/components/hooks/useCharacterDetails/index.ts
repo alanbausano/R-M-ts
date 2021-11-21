@@ -6,7 +6,7 @@ const onError = () => {
 }
 
 const useCharacterDetails = () => {
-  const { data, isLoading } = useQuery('characters', getCharacters, {
+  const { data, isLoading } = useQuery('characters', () => getCharacters(), {
     onError,
   })
 
