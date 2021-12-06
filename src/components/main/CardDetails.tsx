@@ -30,7 +30,7 @@ const CardDetails: React.FC<Props> = ({ characters }) => {
               <strong>{CharacterDetailsEnum.STATUS}</strong>{character?.status}
             </li>
             <li>
-              <strong>{CharacterDetailsEnum.PLANET}</strong>{character?.planet}
+              <strong>{CharacterDetailsEnum.PLANET}</strong>{character?.origin.name}
             </li>
           </ul>
         </div>
@@ -42,4 +42,4 @@ const CardDetails: React.FC<Props> = ({ characters }) => {
   );
 }
 
-export { CardDetails } 
+export default CardDetails

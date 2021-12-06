@@ -6,7 +6,11 @@ export type Character = {
   location: Location
   species: string
   image: string
-  planet: string
+  origin: Origin
+}
+
+export type Origin = {
+  name: string
 }
 
 export type Location = {
@@ -16,8 +20,7 @@ export type Location = {
 export enum CharacterDetailsEnum {
   NAME = 'Name: ',
   STATUS = 'Status: ',
-  PLANET = 'Planet :',
+  PLANET = 'Planet: ',
   SPECIES = 'Species: ',
   GENDER = 'Gender: '
-
 }

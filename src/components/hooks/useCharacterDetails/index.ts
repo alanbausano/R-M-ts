@@ -5,14 +5,15 @@ const onError = () => {
     alert('Error getting characters')
 }
 
-const useCharacterDetails = () => {
-  const { data, isLoading } = useQuery('characters', () => getCharacters(), {
+const useCharacterDetails = (query: string | undefined) => {
+  const { data, isLoading, isSuccess } = useQuery(['characters',  {query}], () => getCharacters(query), {
     onError,
   })
 
   return {
     characters: data,
     isLoading,
+    isSuccess,
   }
 }
 
