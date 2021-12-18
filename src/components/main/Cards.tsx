@@ -1,17 +1,71 @@
-import { useContext, useState } from 'react'
-import { NewButtonRequest } from '../buttons/NewButtonRequest'
-import { QueryContext } from '../context/QueryContext'
-import { useCharacterDetails } from '../hooks/useCharacterDetails/index'
-import CardDetails from "./CardDetails"
+import { Dispatch, SetStateAction, useContext } from "react";
+import { PacmanLoader } from "react-spinners";
+import { QueryContext } from "../context/QueryContext";
+import { useCharacterDetails } from "../hooks/useCharacterDetails/index";
+import CardDetails from "./CardDetails";
 
-export default function Cards() {
-  const [page, setPage] = useState(1)
-  const { state, setState } = useContext(QueryContext)
-  const { characters, isLoading, isSuccess } = useCharacterDetails(state)
+interface CardProps {
+  pageNumber: number;
+  setPageNumber: Dispatch<SetStateAction<number>>;
+}
+
+const Cards: React.FC<CardProps> = ({ pageNumber, setPageNumber }) => {
+  const { state } = useContext(QueryContext);
+  const { characters, isLoading, isError } = useCharacterDetails(
+    state,
+    pageNumber
+  );
 
   return (
-    isLoading ? <h1>Loading characers...</h1> : (<section className="cards">
-      {<CardDetails characters={characters} />}
-    </section>)
-  )
-}
+    <>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+        }}
+      >
+        <PacmanLoader color="#376956" loading={isLoading} />
+      </div>
+      <section className="cards">
+        <CardDetails characters={characters?.results} />
+      </section>
+      {isError && (
+        <h1 style={{ display: "flex", justifyContent: "center" }}>
+          No characters found
+        </h1>
+      )}
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          margin: "50px",
+          perspective: "420px",
+        }}
+      >
+        <button
+          className="btn1"
+          onClick={() => setPageNumber((old) => Math.max(old - 1, 1))}
+          disabled={pageNumber === 1}
+        >
+          Prev page
+        </button>
+        <div className="pageNumber">
+          Page {pageNumber}/{characters?.info.pages}
+        </div>
+        <button
+          className="btn2"
+          disabled={!characters || !characters.info.next}
+          onClick={() =>
+            setPageNumber((old) =>
+              !characters || !characters?.info.next ? old : old + 1
+            )
+          }
+        >
+          Next Page
+        </button>
+      </div>
+    </>
+  );
+};
+
+export { Cards };

@@ -7,6 +7,7 @@ export type Character = {
   species: string
   image: string
   origin: Origin
+  info: Info
 }
 
 export type Origin = {
@@ -24,3 +25,10 @@ export enum CharacterDetailsEnum {
   SPECIES = 'Species: ',
   GENDER = 'Gender: '
 }
+
+export type Info = {
+  next: string | null;
+  count: number;
+  pages: number;
+  prev: string | null;
+};

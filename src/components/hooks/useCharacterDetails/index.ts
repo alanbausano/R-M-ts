@@ -1,19 +1,15 @@
 import { useQuery } from 'react-query'
 import { getCharacters } from './api'
 
-const onError = () => {
-    alert('Error getting characters')
-}
-
-const useCharacterDetails = (query: string | undefined) => {
-  const { data, isLoading, isSuccess } = useQuery(['characters',  {query}], () => getCharacters(query), {
-    onError,
+const useCharacterDetails = (query: string | undefined, page:number) => {
+  const { data, isLoading, isError } = useQuery(['characters',  {query, page}], () => getCharacters(query, page), {
+    retry: false
   })
 
   return {
     characters: data,
     isLoading,
-    isSuccess,
+    isError,
   }
 }
 
