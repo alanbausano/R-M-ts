@@ -7,12 +7,9 @@ interface SearchProps {
 
 export const Search: React.FC<SearchProps> = ({ setPageNumber }) => {
   const { state, setState } = useContext(QueryContext);
-  const handleChange = (q: string) => {
-    setState(q);
+  const handleChange = (e: string) => {
+    setState(e);
     setPageNumber(1);
-    if (q.length === 0) {
-      setPageNumber(1);
-    }
   };
 
   return (

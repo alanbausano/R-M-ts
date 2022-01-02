@@ -1,3 +1,4 @@
+import { Pagination } from "@mui/material";
 import { Dispatch, SetStateAction, useContext } from "react";
 import { PacmanLoader } from "react-spinners";
 import { QueryContext } from "../context/QueryContext";
@@ -11,10 +12,14 @@ interface CardProps {
 
 const Cards: React.FC<CardProps> = ({ pageNumber, setPageNumber }) => {
   const { state } = useContext(QueryContext);
-  const { characters, isLoading, isError } = useCharacterDetails(
+  const { characters, isLoading, isError, totalCount } = useCharacterDetails(
     state,
     pageNumber
   );
+
+  const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
+    setPageNumber(value);
+  };
 
   return (
     <>
@@ -34,36 +39,16 @@ const Cards: React.FC<CardProps> = ({ pageNumber, setPageNumber }) => {
           No characters found
         </h1>
       )}
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          margin: "50px",
-          perspective: "420px",
-        }}
-      >
-        <button
-          className="btn1"
-          onClick={() => setPageNumber((old) => Math.max(old - 1, 1))}
-          disabled={pageNumber === 1}
-        >
-          Prev page
-        </button>
-        <div className="pageNumber">
-          Page {pageNumber}/{characters?.info.pages}
-        </div>
-        <button
-          className="btn2"
-          disabled={!characters || !characters.info.next}
-          onClick={() =>
-            setPageNumber((old) =>
-              !characters || !characters?.info.next ? old : old + 1
-            )
-          }
-        >
-          Next Page
-        </button>
-      </div>
+
+      <Pagination
+        count={totalCount}
+        onChange={handleChange}
+        style={{ display: "flex", justifyContent: "center", margin: "35px" }}
+        variant="outlined"
+        color="primary"
+        defaultPage={1}
+        page={pageNumber}
+      />
     </>
   );
 };
